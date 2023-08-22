@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -20,17 +19,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(Keyboard.current.aKey.wasPressedThisFrame)
-        {
-            _direction.x = -1;
-            // Move Left
-        }
-        if(Keyboard.current.dKey.wasPressedThisFrame)
-        {
-            _direction.x = 1;
-            // Move Right
-        }
+        CalculateMovement();
+    }
 
-        _controller.Move(_direction * Time.deltaTime * _speed);
+    public void SetWalk(float walk)
+    {
+        _direction = new Vector3(walk, 0, 0);
+    }
+
+    private void CalculateMovement()
+    {
+        var charVeloctiy = _direction * _speed;
+        _controller.Move(charVeloctiy * Time.deltaTime);
     }
 }

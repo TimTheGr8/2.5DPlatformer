@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class InputManager : MonoBehaviour
+{
+    [SerializeField]
+    private Player _player;
+
+    private PlayerInputs _inputs;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _inputs = new PlayerInputs();
+        _inputs.Player.Enable();
+        _inputs.Player.Move.performed += Move_performed;
+        _inputs.Player.Move.canceled += Move_canceled;
+    }
+
+    private void Move_canceled(InputAction.CallbackContext context)
+    {
+        _player.SetWalk(0);
+    }
+
+    private void Move_performed(InputAction.CallbackContext context)
+    {
+        _player.SetWalk(context.ReadValue<float>());
+    }
+}
