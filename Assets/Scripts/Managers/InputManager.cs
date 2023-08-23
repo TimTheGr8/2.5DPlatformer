@@ -17,6 +17,12 @@ public class InputManager : MonoBehaviour
         _inputs.Player.Enable();
         _inputs.Player.Move.performed += Move_performed;
         _inputs.Player.Move.canceled += Move_canceled;
+        _inputs.Player.Jump.performed += Jump_performed;
+    }
+
+    private void Jump_performed(InputAction.CallbackContext context)
+    {
+        _player.Jump();
     }
 
     private void Move_canceled(InputAction.CallbackContext context)
