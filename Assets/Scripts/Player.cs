@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _direction;
     private float _yVelocity = 0;
-    private bool _hasJumped = false;
+    [SerializeField]
+    private int _jumpCount = 0;
 
     void Start()
     {
@@ -35,26 +36,26 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        _hasJumped = true;
+        if (_jumpCount < 2)
+        {
+            _jumpCount++;
+            if (_jumpCount == 1)
+                _yVelocity = _jumpHeight;
+            if (_jumpCount == 2)
+                _yVelocity += _jumpHeight;
+        }
     }
 
     private void CalculateMovement()
     {
         var velocity = _direction * _speed;
-        if (_controller.isGrounded)
-        {
-            if (_hasJumped)
-            {
-                _yVelocity = _jumpHeight;
-                _hasJumped = false;
-            }
-        }
-        else if (!_controller.isGrounded)
-        {
+        if (!_controller.isGrounded)
             _yVelocity -= _gravity;
-        }
 
         velocity.y = _yVelocity;
         _controller.Move(velocity * Time.deltaTime);
+
+        if (_controller.isGrounded)
+            _jumpCount = 0;
     }
 }
