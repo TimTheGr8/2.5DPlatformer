@@ -14,8 +14,8 @@ public class Player : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _direction;
     private float _yVelocity = 0;
-    [SerializeField]
     private int _jumpCount = 0;
+    private int _coinCount = 0;
 
     void Start()
     {
@@ -57,5 +57,11 @@ public class Player : MonoBehaviour
 
         if (_controller.isGrounded)
             _jumpCount = 0;
+    }
+
+    public void UpdateCoins(int amount)
+    {
+        _coinCount += amount;
+        UIManager.Instance.UpdateCoinText(_coinCount);
     }
 }
