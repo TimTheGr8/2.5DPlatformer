@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     private CharacterController _controller;
     private Vector3 _direction;
+    private float _walk = 0;
     private float _yVelocity = 0;
     private int _jumpCount = 0;
     private int _coinCount = 0;
@@ -24,14 +25,14 @@ public class Player : MonoBehaviour
             Debug.LogError("The Player does not have a Character Controller component.");
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CalculateMovement();
     }
 
     public void SetWalk(float walk)
     {
-        _direction = new Vector3(walk, 0, 0);
+        _walk = walk;
     }
 
     public void Jump()
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
 
     private void CalculateMovement()
     {
+        _direction = new Vector3(_walk, 0, 0);
         var velocity = _direction * _speed;
         if (!_controller.isGrounded)
             _yVelocity -= _gravity;
