@@ -7,6 +7,8 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField]
     private Player _player;
+    [SerializeField]
+    private ElevatorPanel _elevatorPanel;
 
     private PlayerInputs _inputs;
 
@@ -18,6 +20,12 @@ public class InputManager : MonoBehaviour
         _inputs.Player.Move.performed += Move_performed;
         _inputs.Player.Move.canceled += Move_canceled;
         _inputs.Player.Jump.performed += Jump_performed;
+        _inputs.Player.Interact.performed += Interact_performed;
+    }
+
+    private void Interact_performed(InputAction.CallbackContext context)
+    {
+        _elevatorPanel.CallElevator();
     }
 
     private void Jump_performed(InputAction.CallbackContext context)

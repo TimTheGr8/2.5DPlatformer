@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     private TMP_Text _livesText;
     [SerializeField]
     private GameObject _gameOverText;
+    [SerializeField]
+    private GameObject _elevatorPanelText;
 
     private void Awake()
     {
@@ -50,5 +52,10 @@ public class UIManager : MonoBehaviour
     public void GameOverText()
     {
         _gameOverText.SetActive(true);
+    }
+
+    public void ElevatorPanelText(bool setActive)
+    {
+        _elevatorPanelText.SetActive(setActive);
     }
 }

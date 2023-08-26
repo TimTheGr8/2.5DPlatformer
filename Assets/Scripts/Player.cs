@@ -77,11 +77,13 @@ public class Player : MonoBehaviour
     public void UpdateLives(int amount)
     {
         _lives += amount;
-        if(_lives <= 0)
+        
+        UIManager.Instance.UpdateLivesText(_lives);
+
+        if (_lives <= 0)
         {
             GameManager.Instance.GameOver();
             UIManager.Instance.GameOverText();
         }
-        UIManager.Instance.UpdateLivesText(_lives);
     }
 }
