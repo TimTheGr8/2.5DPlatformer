@@ -19,6 +19,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text _coinText;
+    [SerializeField]
+    private TMP_Text _livesText;
+    [SerializeField]
+    private GameObject _gameOverText;
 
     private void Awake()
     {
@@ -29,10 +33,22 @@ public class UIManager : MonoBehaviour
     {
         if (_coinText == null)
             Debug.LogError("The UI Manager does not have a coin text.");
+        if (_livesText == null)
+            Debug.LogError("The UI Manager does not have a lives text.");
     }
 
     public void UpdateCoinText(int amount)
     {
         _coinText.text = $"Coins: {amount}";
+    }
+
+    public void UpdateLivesText(int amount)
+    {
+        _livesText.text = $"Lives: {amount}";
+    }
+
+    public void GameOverText()
+    {
+        _gameOverText.SetActive(true);
     }
 }

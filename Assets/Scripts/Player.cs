@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private float _jumpHeight = 15f;
     [SerializeField]
     private float _gravity = 1.0f;
+    [SerializeField]
+    private int _maxLifeCount = 3;
 
     private CharacterController _controller;
     private Vector3 _direction;
@@ -17,17 +19,22 @@ public class Player : MonoBehaviour
     private float _yVelocity = 0;
     private int _jumpCount = 0;
     private int _coinCount = 0;
+    private int _lives;
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         if (_controller == null)
             Debug.LogError("The Player does not have a Character Controller component.");
+
+        _lives = _maxLifeCount;
+        UIManager.Instance.UpdateLivesText(_lives);
     }
 
     void FixedUpdate()
     {
-        CalculateMovement();
+        if(!GameManager.Instance.IsGameOver())
+            CalculateMovement();
     }
 
     public void SetWalk(float walk)
@@ -65,5 +72,16 @@ public class Player : MonoBehaviour
     {
         _coinCount += amount;
         UIManager.Instance.UpdateCoinText(_coinCount);
+    }
+
+    public void UpdateLives(int amount)
+    {
+        _lives += amount;
+        if(_lives <= 0)
+        {
+            GameManager.Instance.GameOver();
+            UIManager.Instance.GameOverText();
+        }
+        UIManager.Instance.UpdateLivesText(_lives);
     }
 }

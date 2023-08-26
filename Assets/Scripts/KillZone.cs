@@ -11,9 +11,11 @@ public class KillZone : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            other.gameObject.SetActive(false);
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+                player.UpdateLives(-1);
+
             other.transform.position = _spawnLoaction.position;
-            other.gameObject.SetActive(true);
         }
     }
 }

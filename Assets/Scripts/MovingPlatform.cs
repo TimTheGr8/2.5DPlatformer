@@ -13,6 +13,12 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField]
     private Transform _currentTarget;
 
+
+    private void Start()
+    {
+        if (_currentTarget == null)
+            _currentTarget = _pointB;
+    }
     private void FixedUpdate()
     {
         var step = _speed * Time.deltaTime;
