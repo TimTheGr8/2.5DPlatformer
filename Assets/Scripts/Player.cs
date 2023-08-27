@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private float _gravity = 1.0f;
     [SerializeField]
     private int _maxLifeCount = 3;
+    [SerializeField]
+    private float _pushPower = 2.5f;
 
     private CharacterController _controller;
     private Vector3 _direction;
@@ -82,6 +84,16 @@ public class Player : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if(hit.transform.tag == "Moving Box")
+        {
+            Rigidbody rb = hit.gameObject.GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, 0);
+                rb.velocity = pushDir * _pushPower;
+            }
+        }
+
         if(!_controller.isGrounded && hit.transform.tag == "Wall")
         {
             Debug.DrawRay(hit.point, hit.normal, Color.blue);
