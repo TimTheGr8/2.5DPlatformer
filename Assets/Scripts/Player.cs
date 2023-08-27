@@ -74,6 +74,11 @@ public class Player : MonoBehaviour
         UIManager.Instance.UpdateCoinText(_coinCount);
     }
 
+    public int CoinCount()
+    {
+        return _coinCount;
+    }
+
     public void UpdateLives(int amount)
     {
         _lives += amount;

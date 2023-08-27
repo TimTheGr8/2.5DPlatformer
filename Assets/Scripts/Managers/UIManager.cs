@@ -24,7 +24,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _gameOverText;
     [SerializeField]
-    private GameObject _elevatorPanelText;
+    private GameObject _elevatorPanelGO;
+    [SerializeField]
+    private TMP_Text _elevatorPanelInstructions;
+    [SerializeField]
+    private string _meetsRequirementText, _doesNotMeetRequirementsText;
 
     private void Awake()
     {
@@ -54,8 +58,12 @@ public class UIManager : MonoBehaviour
         _gameOverText.SetActive(true);
     }
 
-    public void ElevatorPanelText(bool setActive)
+    public void ElevatorPanelText(bool canInteract, bool setActive)
     {
-        _elevatorPanelText.SetActive(setActive);
+        _elevatorPanelGO.SetActive(setActive);
+        if (canInteract)
+            _elevatorPanelInstructions.text = _meetsRequirementText;
+        if (!canInteract)
+            _elevatorPanelInstructions.text = _doesNotMeetRequirementsText;
     }
 }

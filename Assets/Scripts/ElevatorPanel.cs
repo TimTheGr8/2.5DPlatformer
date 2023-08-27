@@ -7,18 +7,34 @@ public class ElevatorPanel : MonoBehaviour
     [SerializeField]
     private Renderer _callButton;
     [SerializeField]
-    private Material _callButtonMat;
+    private Material _elevatorCalledMaterial;
+    [SerializeField]
+    private Material _elevatorReturningMaterial;
+    [SerializeField]
+    private Elevator _elevatorToCall;
+    [SerializeField]
+    private int _coinsToCallElevator = 8;
 
     private bool _canInteract = false;
+    private bool _elevatorCalled = false;
+
+    private void Start()
+    {
+        if (_elevatorToCall == null)
+            Debug.LogError("There is no Elevator hooked up.");
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        Player player;
+        
         if(other.tag == "Player")
         {
-            _canInteract = true;
+            Player player;
             player = other.GetComponent<Player>();
-            UIManager.Instance.ElevatorPanelText(_canInteract);
+            if(player != null && player.CoinCount() >= _coinsToCallElevator)
+                _canInteract = true;
+
+            UIManager.Instance.ElevatorPanelText(_canInteract, true);
         }
     }
 
@@ -27,7 +43,7 @@ public class ElevatorPanel : MonoBehaviour
         if(other.tag == "Player")
         {
             _canInteract = false;
-            UIManager.Instance.ElevatorPanelText(_canInteract);
+            UIManager.Instance.ElevatorPanelText(_canInteract, false);
         }
     }
 
@@ -35,8 +51,13 @@ public class ElevatorPanel : MonoBehaviour
     {
         if (_canInteract)
         {
-            _callButton.material = _callButtonMat;
-            //_callButton.material.color = Color.green;
+            _elevatorCalled = !_elevatorCalled;
+            if (_elevatorCalled)
+                _callButton.material = _elevatorCalledMaterial;
+            else
+                _callButton.material = _elevatorReturningMaterial;
+
+            _elevatorToCall.MoveElevator();
         }
     }
 }
